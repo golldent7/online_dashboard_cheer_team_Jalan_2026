@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>داشبورد دوري الهواة شجع فريقك 2026</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="brand">
+      <div class="logo">⚽</div>
+      <div>
+        <h1>داشبورد دوري الهواة <span>شجع فريقك 2026</span></h1>
+        <p>نتائج، ترتيب، بطاقات، إحصاءات المباريات، الهدافين، صناع اللعب والجوائز الفنية</p>
+      </div>
+    </div>
+    <div class="actions no-print">
+      <button id="exportJson">تصدير نسخة احتياطية</button>
+      <label class="upload">استيراد نسخة<input type="file" id="importJson" accept="application/json" /></label>
+      <button id="printBtn">طباعة / PDF</button>
+      <button id="resetBtn" class="danger">استعادة البيانات الافتراضية</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="cards">
+      <article class="card"><span>المباريات المكتملة</span><strong id="playedCount">0</strong></article>
+      <article class="card"><span>إجمالي الأهداف</span><strong id="goalsCount">0</strong></article>
+      <article class="card"><span>أفضل هجوم</span><strong id="bestAttack">-</strong></article>
+      <article class="card"><span>أفضل دفاع</span><strong id="bestDefense">-</strong></article>
+      <article class="card"><span>الأقل بطاقات</span><strong id="fairTeam">-</strong></article>
+      <article class="card"><span>الأكثر تسديداً</span><strong id="mostShots">-</strong></article>
+    </section>
+
+    <section class="panel standings-panel">
+      <div class="panel-title">
+        <h2>ترتيب الفرق</h2>
+        <small>النقاط ← المواجهات المباشرة ← فارق وأهداف المواجهات ← الفارق العام ← الأهداف ← اللعب النظيف</small>
+      </div>
+      <div class="table-wrap">
+        <table id="standingsTable">
+          <thead>
+            <tr>
+              <th>المركز</th><th>الفريق</th><th>لعب</th><th>فاز</th><th>تعادل</th><th>خسر</th><th>له</th><th>عليه</th><th>الفارق</th><th>نقاط</th><th>لعب نظيف</th><th>ملاحظة</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="grid">
+      <section class="panel form-panel no-print">
+        <div class="panel-title"><h2>إدخال / تعديل مباراة</h2><small>اختر المباراة ثم أدخل النتيجة والإحصاءات والجوائز</small></div>
+        <form id="matchForm">
+          <label>المباراة
+            <select id="matchSelect"></select>
+          </label>
+
+          <div class="score-row">
+            <label><span id="homeName">الفريق الأول</span><input id="homeGoals" type="number" min="0" step="1" placeholder="أهداف" /></label>
+            <strong>-</strong>
+            <label><span id="awayName">الفريق الثاني</span><input id="awayGoals" type="number" min="0" step="1" placeholder="أهداف" /></label>
+          </div>
+
+          <div class="form-split">
+            <div class="cards-input">
+              <h3>بطاقات الفريق الأول</h3>
+              <label>صفراء<input id="homeY" type="number" min="0" step="1" value="0" /></label>
+              <label>حمراء غير مباشرة<input id="homeRI" type="number" min="0" step="1" value="0" /></label>
+              <label>حمراء مباشرة<input id="homeRD" type="number" min="0" step="1" value="0" /></label>
+            </div>
+            <div class="cards-input">
+              <h3>بطاقات الفريق الثاني</h3>
+              <label>صفراء<input id="awayY" type="number" min="0" step="1" value="0" /></label>
+              <label>حمراء غير مباشرة<input id="awayRI" type="number" min="0" step="1" value="0" /></label>
+              <label>حمراء مباشرة<input id="awayRD" type="number" min="0" step="1" value="0" /></label>
+            </div>
+          </div>
+
+          <div class="form-split">
+            <div class="stats-box">
+              <h3 id="homeStatsTitle">إحصاءات الفريق الأول</h3>
+              <label>الاستحواذ %<input id="homePoss" type="number" min="0" max="100" step="1" /></label>
+              <label>التسديد<input id="homeShots" type="number" min="0" step="1" /></label>
+              <label>الركنيات<input id="homeCorners" type="number" min="0" step="1" /></label>
+              <label>الأخطاء<input id="homeFouls" type="number" min="0" step="1" /></label>
+              <label>التصديات<input id="homeSaves" type="number" min="0" step="1" /></label>
+            </div>
+            <div class="stats-box">
+              <h3 id="awayStatsTitle">إحصاءات الفريق الثاني</h3>
+              <label>الاستحواذ %<input id="awayPoss" type="number" min="0" max="100" step="1" /></label>
+              <label>التسديد<input id="awayShots" type="number" min="0" step="1" /></label>
+              <label>الركنيات<input id="awayCorners" type="number" min="0" step="1" /></label>
+              <label>الأخطاء<input id="awayFouls" type="number" min="0" step="1" /></label>
+              <label>التصديات<input id="awaySaves" type="number" min="0" step="1" /></label>
+            </div>
+          </div>
+
+          <div class="people-input">
+            <h3>الأهداف وصناعة اللعب</h3>
+            <label>الهدافون <small>اكتب كل هدف في سطر: اللاعب - الفريق</small><textarea id="scorers" rows="4" placeholder="مثال: محمد البريكي - الحصن"></textarea></label>
+            <label>صناع الأهداف <small>كل صناعة في سطر: اللاعب - الفريق</small><textarea id="assists" rows="4" placeholder="مثال: علي المشايخي - الحصن"></textarea></label>
+          </div>
+
+          <div class="form-split">
+            <label>رجل المباراة
+              <input id="motm" type="text" placeholder="اسم اللاعب - الفريق" />
+            </label>
+            <label>أفضل لاعب شاب
+              <input id="youngPlayer" type="text" placeholder="اسم اللاعب - الفريق" />
+            </label>
+          </div>
+
+          <label>فائز ركلات الترجيح عند الحاجة
+            <select id="penaltyWinner"><option value="">لا يوجد</option></select>
+          </label>
+          <div class="form-actions">
+            <button type="submit">حفظ المباراة</button>
+            <button type="button" id="clearMatch">إلغاء نتيجة المباراة</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel">
+        <div class="panel-title"><h2>جدول المباريات</h2><small>18 مباراة، كل فريق يلعب 4 مباريات</small></div>
+        <div class="fixture-list" id="fixtureList"></div>
+      </section>
+    </section>
+
+    <section class="grid three">
+      <section class="panel"><div class="panel-title"><h2>ترتيب الهدافين</h2></div><div class="table-wrap"><table id="scorersTable"><thead><tr><th>#</th><th>اللاعب</th><th>الفريق</th><th>أهداف</th></tr></thead><tbody></tbody></table></div></section>
+      <section class="panel"><div class="panel-title"><h2>صناع الأهداف</h2></div><div class="table-wrap"><table id="assistsTable"><thead><tr><th>#</th><th>اللاعب</th><th>الفريق</th><th>صناعة</th></tr></thead><tbody></tbody></table></div></section>
+      <section class="panel"><div class="panel-title"><h2>الجوائز الفنية</h2></div><div class="table-wrap"><table id="awardsTable"><thead><tr><th>المباراة</th><th>رجل المباراة</th><th>أفضل شاب</th></tr></thead><tbody></tbody></table></div></section>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title"><h2>إحصاءات الفرق المجمعة</h2><small>متوسط الاستحواذ، التسديد، الركنيات، الأخطاء والتصديات</small></div>
+      <div class="table-wrap"><table id="teamStatsTable"><thead><tr><th>الفريق</th><th>متوسط الاستحواذ</th><th>التسديد</th><th>ركنيات</th><th>أخطاء</th><th>تصديات</th></tr></thead><tbody></tbody></table></div>
+    </section>
+  </main>
+
+  <footer>إعداد: اللجنة الفنية - دوري الهواة شجع فريقك بنادي جعلان الرياضي 2026م</footer>
+  <script src="app.js"></script>
+</body>
+</html>
